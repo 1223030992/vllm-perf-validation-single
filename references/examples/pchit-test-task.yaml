@@ -7,10 +7,10 @@ task:
 mode: single
 
 paths:
-  skill_host_root: /public/home/<user>/.claude/skills/vllm-perf-validation-pd
-  skill_container_root: /mnt/.claude/skills/vllm-perf-validation-pd
-  output_host_root: /public/home/<user>/skilltest/vllm-perf-validation-pd
-  output_container_root: /mnt/skilltest/vllm-perf-validation-pd
+  skill_host_root: /public/home/<user>/.claude/skills/vllm-perf-validation-single
+  skill_container_root: /mnt/.claude/skills/vllm-perf-validation-single
+  output_host_root: /public/home/<user>/skilltest/vllm-perf-validation-single
+  output_container_root: /mnt/skilltest/vllm-perf-validation-single
 
 image:
   name: 25401bd053af
@@ -61,6 +61,6 @@ test:
     concurrency_multiplier: 4
 
 output:
-  work_dir: /public/home/<user>/skilltest/vllm-perf-validation-pd/work_dirs
-  report_dir: /public/home/<user>/skilltest/vllm-perf-validation-pd/reports
-  csv_dir: /public/home/<user>/skilltest/vllm-perf-validation-pd/csvs
+  work_dir: /public/home/<user>/skilltest/vllm-perf-validation-single/work_dirs
+  report_dir: /public/home/<user>/skilltest/vllm-perf-validation-single/reports
+  csv_dir: /public/home/<user>/skilltest/vllm-perf-validation-single/csvs

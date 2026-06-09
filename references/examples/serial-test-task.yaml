@@ -1,10 +1,10 @@
 task:
-  name: vllm_perf_single_glm47_custom
+  name: vllm_perf_serial_glm47_glm51_custom
   run_id: auto
   owner: liuzhihuan
-  description: "单模型 custom 性能测试"
+  description: "GLM-4.7 与 GLM-5.1 串行 custom 性能测试"
 
-mode: single
+mode: serial
 
 paths:
   skill_host_root: /public/home/<user>/.claude/skills/vllm-perf-validation-single
@@ -13,7 +13,7 @@ paths:
   output_container_root: /mnt/skilltest/vllm-perf-validation-single
 
 image:
-  name: 25401bd053af
+  name: 61d96b8e5415
   pull_policy: if_not_present
 
 node:
@@ -44,6 +44,16 @@ models:
     port: 9348
     gpu_range: "0,1,2,3,4,5,6,7"
     service_script: scripts/server-scripts/run_glm47int8-server.sh
+  - name: GLM-5.1-Channel-INT8
+    model_short: glm51int8
+    host_model_path: /public4/share/GLM-5.1-Channel-INT8
+    container_model_path: /model1/GLM-5.1-Channel-INT8
+    served_model_id: null
+    bench_model_id: null
+    tp: 8
+    port: 9350
+    gpu_range: "0,1,2,3,4,5,6,7"
+    service_script: scripts/server-scripts/run_glm5.1-w8a8-server.sh
 
 service:
   health_check:

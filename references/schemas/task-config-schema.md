@@ -14,10 +14,10 @@ task:
 mode: single | serial | parallel
 
 paths:
-  skill_host_root: /public/home/<user>/.claude/skills/vllm-perf-validation-pd
-  skill_container_root: /mnt/.claude/skills/vllm-perf-validation-pd
-  output_host_root: /public/home/<user>/skilltest/vllm-perf-validation-pd
-  output_container_root: /mnt/skilltest/vllm-perf-validation-pd
+  skill_host_root: /public/home/<user>/.claude/skills/vllm-perf-validation-single
+  skill_container_root: /mnt/.claude/skills/vllm-perf-validation-single
+  output_host_root: /public/home/<user>/skilltest/vllm-perf-validation-single
+  output_container_root: /mnt/skilltest/vllm-perf-validation-single
 
 image:
   name: <image_name>
@@ -63,9 +63,9 @@ test:
   params: {}
 
 output:
-  work_dir: /public/home/<user>/skilltest/vllm-perf-validation-pd/work_dirs
-  report_dir: /public/home/<user>/skilltest/vllm-perf-validation-pd/reports
-  csv_dir: /public/home/<user>/skilltest/vllm-perf-validation-pd/csvs
+  work_dir: /public/home/<user>/skilltest/vllm-perf-validation-single/work_dirs
+  report_dir: /public/home/<user>/skilltest/vllm-perf-validation-single/reports
+  csv_dir: /public/home/<user>/skilltest/vllm-perf-validation-single/csvs
 ```
 
 ## 字段说明
@@ -194,6 +194,6 @@ bash scripts/ops/run_bench.sh \
   --served-model-id "/model/GLM-4.7-W8A8" \
   --port 9348 \
   --tp 8 \
-  --work-dir "/mnt/skilltest/vllm-perf-validation-pd/work_dirs/<run_id>" \
-  --state "/mnt/skilltest/vllm-perf-validation-pd/work_dirs/<run_id>/state.json"
+  --work-dir "/mnt/skilltest/vllm-perf-validation-single/work_dirs/<run_id>" \
+  --state "/mnt/skilltest/vllm-perf-validation-single/work_dirs/<run_id>/state.json"
 ```

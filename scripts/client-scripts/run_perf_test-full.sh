@@ -49,7 +49,7 @@ if [[ -n "$WORK_DIR" ]]; then
 else
     # 旧模式：兼容现有结构
     image_tag=${IMAGE_NAME: -12}
-    OUTPUT_BASE="/mnt/skilltest/vllm-perf-validation-pd/csvs/${model}"
+    OUTPUT_BASE="/mnt/skilltest/vllm-perf-validation-single/csvs/${model}"
     RUN_DIR="${OUTPUT_BASE}/${date}-${image_tag}-full"
     LOG_DIR="${RUN_DIR}/logs"
     mkdir -p "${LOG_DIR}"
@@ -84,7 +84,7 @@ all_log="${CSV_DIR}/all.csv"
     echo "export PORT=${PORT}"
     echo "export WORK_DIR=${WORK_DIR}"
     echo "export LOG_DIR=${LOG_DIR}"
-    echo "bash /mnt/.claude/skills/vllm-perf-validation-pd/scripts/server-scripts/run_<MODEL>-server.sh"
+    echo "bash /mnt/.claude/skills/vllm-perf-validation-single/scripts/server-scripts/run_<MODEL>-server.sh"
     echo ""
     echo "# Client 测试命令:"
     echo "vllm bench serve \\"

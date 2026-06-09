@@ -1,8 +1,8 @@
 task:
-  name: vllm_perf_single_glm47_custom
+  name: vllm_perf_single_glm47_engin
   run_id: auto
   owner: liuzhihuan
-  description: "单模型 custom 性能测试"
+  description: "单模型 Prefill 性能测试"
 
 mode: single
 
@@ -51,15 +51,12 @@ service:
     timeout_seconds: 1800
 
 test:
-  mode: custom
-  script: scripts/client-scripts/run_perf_test-custom.sh
+  mode: engin
+  script: scripts/client-scripts/run_perf_test-engin.sh
   params:
-    input_lens: [512, 1024, 2048]
-    output_len: 256
-    concurrencies: [1, 2, 4, 8]
-    num_prompts_mult: 2
-    request_rate: null
-    percentiles: "50,95,99"
+    input_lens: [1024, 2048, 4096, 8192, 16384, 32768]
+    output_len: 64
+    batch_seq: [1, 2, 4, 8, 16, 32, 64]
 
 output:
   work_dir: /public/home/<user>/skilltest/vllm-perf-validation-single/work_dirs

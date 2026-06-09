@@ -14,7 +14,7 @@ from pathlib import Path
 
 
 SKILL_ROOT = Path(__file__).resolve().parents[2]
-SKILL_NAME = "vllm-perf-validation-pd"
+SKILL_NAME = "vllm-perf-validation-single"
 
 DEFAULT_HOME_ROOTS = ["/public/home", "/public2/home"]
 DEFAULT_SKILL_CONTAINER_ROOT = "/mnt/.claude/skills/{}".format(SKILL_NAME)

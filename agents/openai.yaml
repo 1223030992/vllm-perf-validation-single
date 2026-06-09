@@ -1,7 +1,7 @@
 interface:
   display_name: "vLLM DCU 性能验证"
   short_description: "在单个 DCU 节点上执行 vLLM 推理性能验证"
-  default_prompt: "使用 $vllm-perf-validation-pd 执行受控的单节点 vLLM DCU 性能验证。单模型 custom 任务必须只调用绝对路径入口：bash /public/home/<user>/.claude/skills/vllm-perf-validation-pd/scripts/ops/run_single_task.sh ... --user <user> --abbr <abbr>；dry-run 也用 --dry-run 参数；不要单独 preflight，不要使用 DRY_RUN=...、cd、变量块或相对路径入口，不要手写 SSH/Docker/vLLM 命令。新增模型必须优先调用：bash /public/home/<user>/.claude/skills/vllm-perf-validation-pd/scripts/ops/register_model.sh ... --user <user> --abbr <abbr>；不要手写 profile/example 或容器名。"
+  default_prompt: "使用 $vllm-perf-validation-single 执行受控的单节点 vLLM DCU 性能验证。单模型 custom 任务必须只调用绝对路径入口：bash /public/home/<user>/.claude/skills/vllm-perf-validation-single/scripts/ops/run_single_task.sh ... --user <user> --abbr <abbr>；dry-run 也用 --dry-run 参数；不要单独 preflight，不要使用 DRY_RUN=...、cd、变量块或相对路径入口，不要手写 SSH/Docker/vLLM 命令。新增模型必须优先调用：bash /public/home/<user>/.claude/skills/vllm-perf-validation-single/scripts/ops/register_model.sh ... --user <user> --abbr <abbr>；不要手写 profile/example 或容器名。"
 
 policy:
   allow_implicit_invocation: false

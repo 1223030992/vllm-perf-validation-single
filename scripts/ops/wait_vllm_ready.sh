@@ -52,7 +52,7 @@ STATE=""
 TIMEOUT=1800
 INTERVAL=60
 DRY_RUN="${DRY_RUN:-0}"
-SKILL_CONTAINER_ROOT="${SKILL_CONTAINER_ROOT:-/mnt/.claude/skills/vllm-perf-validation-pd}"
+SKILL_CONTAINER_ROOT="${SKILL_CONTAINER_ROOT:-/mnt/.claude/skills/vllm-perf-validation-single}"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in

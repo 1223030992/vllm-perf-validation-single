@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SKILL_NAME="${SKILL_NAME:-vllm-perf-validation-pd}"
+SKILL_NAME="${SKILL_NAME:-vllm-perf-validation-single}"
 SKILL_CONTAINER_ROOT="${SKILL_CONTAINER_ROOT:-/mnt/.claude/skills/${SKILL_NAME}}"
 OUTPUT_CONTAINER_ROOT="${OUTPUT_CONTAINER_ROOT:-/mnt/skilltest/${SKILL_NAME}}"
 

@@ -13,9 +13,9 @@ usage() {
   --dry-run
 
 环境变量:
-  SKILL_CONTAINER_ROOT=/mnt/.claude/skills/vllm-perf-validation-pd
-  OUTPUT_CONTAINER_ROOT=/mnt/skilltest/vllm-perf-validation-pd
-  OUTPUT_HOST_ROOT=/public/home/<user>/skilltest/vllm-perf-validation-pd
+  SKILL_CONTAINER_ROOT=/mnt/.claude/skills/vllm-perf-validation-single
+  OUTPUT_CONTAINER_ROOT=/mnt/skilltest/vllm-perf-validation-single
+  OUTPUT_HOST_ROOT=/public/home/<user>/skilltest/vllm-perf-validation-single
   旧版 dry-run 环境变量仍兼容；正式调用请使用 --dry-run。
 
 说明:
@@ -30,7 +30,7 @@ quote_sh() {
 
 resolve_server_script() {
   local script="$1"
-  local marker="/.claude/skills/vllm-perf-validation-pd/"
+  local marker="/.claude/skills/vllm-perf-validation-single/"
   if [[ -z "$script" ]]; then
     echo "服务启动脚本不能为空" >&2
     return 2

@@ -29,7 +29,7 @@ quote_sh() {
 
 to_host_path() {
   local path="$1"
-  local output_container_root="${OUTPUT_CONTAINER_ROOT:-/mnt/skilltest/vllm-perf-validation-pd}"
+  local output_container_root="${OUTPUT_CONTAINER_ROOT:-/mnt/skilltest/vllm-perf-validation-single}"
   local output_host_root="$OUTPUT_HOST_ROOT"
   if [[ "$path" == "$output_container_root"* ]]; then
     printf '%s%s\n' "$output_host_root" "${path#$output_container_root}"
@@ -40,7 +40,7 @@ to_host_path() {
 
 to_container_path() {
   local path="$1"
-  local output_container_root="${OUTPUT_CONTAINER_ROOT:-/mnt/skilltest/vllm-perf-validation-pd}"
+  local output_container_root="${OUTPUT_CONTAINER_ROOT:-/mnt/skilltest/vllm-perf-validation-single}"
   local output_host_root="$OUTPUT_HOST_ROOT"
   if [[ "$path" == "$output_host_root"* ]]; then
     printf '%s%s\n' "$output_container_root" "${path#$output_host_root}"

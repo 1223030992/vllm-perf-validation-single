@@ -29,7 +29,7 @@ MODEL_SHORT 规则：
 <MODEL>-<TEST_MODE>-<DATE>-<CONTAINER_NAME>/
 
 示例：
-/public/home/<user>/skilltest/vllm-perf-validation-pd/work_dirs/GLM-4.7-W8A8-serial-full-20260515-<container_prefix>-0428-glm47int8-2540/
+/public/home/<user>/skilltest/vllm-perf-validation-single/work_dirs/GLM-4.7-W8A8-serial-full-20260515-<container_prefix>-0428-glm47int8-2540/
 ```
 
 ---
@@ -181,7 +181,7 @@ DCU vLLM 服务启动必须复现用户手动执行：
 
 ```bash
 docker exec -it <CONTAINER_NAME> bash
-bash /mnt/.claude/skills/vllm-perf-validation-pd/scripts/server-scripts/<SERVER_SCRIPT>
+bash /mnt/.claude/skills/vllm-perf-validation-single/scripts/server-scripts/<SERVER_SCRIPT>
 ```
 
 的交互式 shell 环境。
@@ -189,7 +189,7 @@ bash /mnt/.claude/skills/vllm-perf-validation-pd/scripts/server-scripts/<SERVER_
 **必须使用：**
 
 ```bash
-docker exec -w /mnt/.claude/skills/vllm-perf-validation-pd <CONTAINER_NAME> bash -ic '<COMMAND>'
+docker exec -w /mnt/.claude/skills/vllm-perf-validation-single <CONTAINER_NAME> bash -ic '<COMMAND>'
 ```
 
 **禁止使用：**
@@ -240,13 +240,13 @@ PY
 服务启动日志必须使用绝对路径：
 
 ```
-/mnt/skilltest/vllm-perf-validation-pd/tmp/<MODEL_NAME>-<MMDD>-vllm-server.log
+/mnt/skilltest/vllm-perf-validation-single/tmp/<MODEL_NAME>-<MMDD>-vllm-server.log
 ```
 
 PID 文件必须使用绝对路径：
 
 ```
-/mnt/skilltest/vllm-perf-validation-pd/tmp/<MODEL_NAME>-<MMDD>-vllm-server.pid
+/mnt/skilltest/vllm-perf-validation-single/tmp/<MODEL_NAME>-<MMDD>-vllm-server.pid
 ```
 
 **启动服务前必须清理旧日志和旧 PID：**
@@ -257,7 +257,7 @@ rm -f "$LOG" "$PID"
 
 避免被上一次失败日志误导。
 
-**禁止在未设置工作目录时使用相对日志路径**，除非 docker exec 已明确带有 `-w /mnt/skilltest/vllm-perf-validation-pd`。
+**禁止在未设置工作目录时使用相对日志路径**，除非 docker exec 已明确带有 `-w /mnt/skilltest/vllm-perf-validation-single`。
 
 ---
 

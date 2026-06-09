@@ -226,11 +226,11 @@ docker run -itd --name=<container_prefix>-0515-glm47int8-2540 ... <IMAGE> bash
 docker run -itd --name=<container_prefix>-0515-glm51int8-2540 ... <IMAGE> bash
 
 # 2. 启动 model_1 服务
-docker exec -w /mnt/.claude/skills/vllm-perf-validation-pd <container_prefix>-0515-glm47int8-2540 bash -ic '
+docker exec -w /mnt/.claude/skills/vllm-perf-validation-single <container_prefix>-0515-glm47int8-2540 bash -ic '
   export GPU_RANGE=0,1,2,3,4,5,6,7
   export TP=8
   export PORT=9348
-  nohup bash /mnt/.claude/skills/vllm-perf-validation-pd/scripts/server-scripts/run_glm47int8-server.sh > /mnt/skilltest/vllm-perf-validation-pd/tmp/glm47.log 2>&1 &
+  nohup bash /mnt/.claude/skills/vllm-perf-validation-single/scripts/server-scripts/run_glm47int8-server.sh > /mnt/skilltest/vllm-perf-validation-single/tmp/glm47.log 2>&1 &
 '
 
 # 3. 等待 model_1 就绪
@@ -249,11 +249,11 @@ ssh <NODE> "pgrep -af 'vllm serve' && exit 1 || true"  # 应返回成功
 ssh <NODE> "ss -tlnp | grep ':9348 ' || netstat -tlnp | grep ':9348 ' || cat /proc/net/tcp | grep '$PORT_HEX'"  # 应返回空
 
 # 7. 启动 model_2 服务
-docker exec -w /mnt/.claude/skills/vllm-perf-validation-pd <container_prefix>-0515-glm51int8-2540 bash -ic '
+docker exec -w /mnt/.claude/skills/vllm-perf-validation-single <container_prefix>-0515-glm51int8-2540 bash -ic '
   export GPU_RANGE=0,1,2,3,4,5,6,7
   export TP=8
   export PORT=9350
-  nohup bash /mnt/.claude/skills/vllm-perf-validation-pd/scripts/server-scripts/run_glm5.1-w8a8-server.sh > /mnt/skilltest/vllm-perf-validation-pd/tmp/glm51.log 2>&1 &
+  nohup bash /mnt/.claude/skills/vllm-perf-validation-single/scripts/server-scripts/run_glm5.1-w8a8-server.sh > /mnt/skilltest/vllm-perf-validation-single/tmp/glm51.log 2>&1 &
 '
 
 # ... 继续等待就绪、测试、停止 ...
@@ -322,7 +322,7 @@ docker exec <container_prefix>-0515-<modelA>-<IMAGE_PREFIX> bash -ic '
   export GPU_RANGE=0,1,2,3
   export TP=4
   export PORT=9348
-  bash /mnt/.claude/skills/vllm-perf-validation-pd/scripts/server-scripts/run_<modelA>-server.sh
+  bash /mnt/.claude/skills/vllm-perf-validation-single/scripts/server-scripts/run_<modelA>-server.sh
 '
 
 # 服务 B 启动（容器 B 内）
@@ -330,7 +330,7 @@ docker exec <container_prefix>-0515-<modelB>-<IMAGE_PREFIX> bash -ic '
   export GPU_RANGE=4,5,6,7
   export TP=4
   export PORT=9350
-  bash /mnt/.claude/skills/vllm-perf-validation-pd/scripts/server-scripts/run_<modelB>-server.sh
+  bash /mnt/.claude/skills/vllm-perf-validation-single/scripts/server-scripts/run_<modelB>-server.sh
 '
 ```
 

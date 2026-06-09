@@ -24,13 +24,13 @@ def infer_user_from_skill_root():
     return os.environ.get("USER") or os.environ.get("LOGNAME") or "<user>"
 
 
-DEFAULT_OUTPUT_HOST_ROOT = "/public/home/{}/skilltest/vllm-perf-validation-pd".format(
+DEFAULT_OUTPUT_HOST_ROOT = "/public/home/{}/skilltest/vllm-perf-validation-single".format(
     infer_user_from_skill_root()
 )
 
 
 OUTPUT_CONTAINER_ROOT = os.environ.get(
-    "OUTPUT_CONTAINER_ROOT", "/mnt/skilltest/vllm-perf-validation-pd"
+    "OUTPUT_CONTAINER_ROOT", "/mnt/skilltest/vllm-perf-validation-single"
 )
 OUTPUT_HOST_ROOT = os.environ.get(
     "OUTPUT_HOST_ROOT", DEFAULT_OUTPUT_HOST_ROOT
@@ -243,7 +243,6 @@ def main():
         "image": state.get("image"),
         "container": state.get("container", {}),
         "model": state.get("model", {}),
-        "pd": state.get("pd", {}),
         "deployment": {
             "status": "PASS" if state.get("status") not in {"SERVICE_FAILED", "SERVICE_TIMEOUT"} else "FAIL",
             "startup_duration_seconds": deep_get(state, "timing.startup_duration_seconds"),

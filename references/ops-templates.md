@@ -8,10 +8,10 @@
 
 - 真实测试主流程必须优先使用 `scripts/ops/*.sh`。本文件中的命令只用于理解、排障和补充说明。
 - 单模型 `custom` 冒烟或回归任务优先使用绝对路径入口
-  `bash /public/home/<user>/.claude/skills/vllm-perf-validation-pd/scripts/ops/run_single_task.sh ...`，把 preflight、创建容器、
+  `bash /public/home/<user>/.claude/skills/vllm-perf-validation-single/scripts/ops/run_single_task.sh ...`，把 preflight、创建容器、
   启动、等待、benchmark、报告、停止和最终报告收敛到一个稳定入口，减少 Claude Code 权限询问。
 - 不要使用 `cd /public/... && bash scripts/ops/run_single_task.sh ...`，该命令形态无法匹配推荐的 Claude Code allow 规则。
-- 不要使用 `SKILL_ROOT=...` 多行变量块拼接入口；正式命令必须直接以 `bash /public/home/<user>/.claude/skills/vllm-perf-validation-pd/scripts/ops/run_single_task.sh` 开头。
+- 不要使用 `SKILL_ROOT=...` 多行变量块拼接入口；正式命令必须直接以 `bash /public/home/<user>/.claude/skills/vllm-perf-validation-single/scripts/ops/run_single_task.sh` 开头。
 - 不要使用 `DRY_RUN=1 bash ...` 或 `DRY_RUN=0 bash ...` 环境变量前缀；dry-run 必须使用脚本参数 `--dry-run`。
 - `run_single_task.sh` 已内置 preflight，正式单模型 custom 流程不要单独调用 `preflight_node.sh`。
 - ops 脚本失败时，应记录脚本名、参数和错误输出后停止流程，不要手写新的 SSH/Docker 长命令绕过。
@@ -78,7 +78,7 @@ MODEL_SHORT 规则：
 新增模型不要手写 `MODEL_SHORT`。优先调用：
 
 ```bash
-bash /public/home/<user>/.claude/skills/vllm-perf-validation-pd/scripts/ops/register_model.sh ...
+bash /public/home/<user>/.claude/skills/vllm-perf-validation-single/scripts/ops/register_model.sh ...
 ```
 
 通用推导示例：
@@ -127,9 +127,9 @@ ssh <NODE_IP> "docker ps -a --filter 'name=<CONTAINER_NAME>' --format '{{.Names}
 ### 标准启动命令
 
 ```bash
-ssh <NODE_IP> "docker exec -w /mnt/.claude/skills/vllm-perf-validation-pd <CONTAINER_NAME> bash -ic '
+ssh <NODE_IP> "docker exec -w /mnt/.claude/skills/vllm-perf-validation-single <CONTAINER_NAME> bash -ic '
 # 日志写入统一工作区路径
-WORK_DIR=/mnt/skilltest/vllm-perf-validation-pd/work_dirs/<MODEL>-<TEST_MODE>-<DATE>-<CONTAINER_NAME>
+WORK_DIR=/mnt/skilltest/vllm-perf-validation-single/work_dirs/<MODEL>-<TEST_MODE>-<DATE>-<CONTAINER_NAME>
 mkdir -p \"\${WORK_DIR}/logs\"
 
 LOG=\${WORK_DIR}/logs/<MODEL_SHORT>-<MMDD>-vllm-server.log
@@ -137,7 +137,7 @@ PID=\${WORK_DIR}/logs/<MODEL_SHORT>-<MMDD>-vllm-server.pid
 
 rm -f \"\$LOG\" \"\$PID\"
 
-nohup bash /mnt/.claude/skills/vllm-perf-validation-pd/scripts/server-scripts/<SERVER_SCRIPT> > \"\$LOG\" 2>&1 &
+nohup bash /mnt/.claude/skills/vllm-perf-validation-single/scripts/server-scripts/<SERVER_SCRIPT> > \"\$LOG\" 2>&1 &
 echo \$! > \"\$PID\"
 
 sleep 10
@@ -171,7 +171,7 @@ tail -120 \"\$LOG\" || true
 
 **示例：**
 ```
-/public/home/<user>/skilltest/vllm-perf-validation-pd/work_dirs/GLM-4.7-W8A8-serial-full-20260515-<container_prefix>-0428-glm47int8-2540/
+/public/home/<user>/skilltest/vllm-perf-validation-single/work_dirs/GLM-4.7-W8A8-serial-full-20260515-<container_prefix>-0428-glm47int8-2540/
 ```
 
 **子目录结构：**
@@ -192,20 +192,20 @@ tail -120 \"\$LOG\" || true
 ```bash
 # 在容器内创建统一工作路径
 docker exec <CONTAINER_NAME> bash -ic '
-export WORK_DIR="/mnt/skilltest/vllm-perf-validation-pd/work_dirs/<MODEL>-<TEST_MODE>-<DATE>-<CONTAINER_NAME>"
+export WORK_DIR="/mnt/skilltest/vllm-perf-validation-single/work_dirs/<MODEL>-<TEST_MODE>-<DATE>-<CONTAINER_NAME>"
 mkdir -p "${WORK_DIR}/logs" "${WORK_DIR}/csvs/full" "${WORK_DIR}/csvs/pchit" "${WORK_DIR}/csvs/engin" "${WORK_DIR}/csvs/custom"
 echo "WORK_DIR=${WORK_DIR}"
 '
 
 # 在宿主机创建工作路径（如果需要）
-ssh <NODE_IP> "mkdir -p /public/home/<user>/skilltest/vllm-perf-validation-pd/work_dirs/<MODEL>-<TEST_MODE>-<DATE>-<CONTAINER_NAME>/{logs,csvs/{full,pchit,engin,custom}}"
+ssh <NODE_IP> "mkdir -p /public/home/<user>/skilltest/vllm-perf-validation-single/work_dirs/<MODEL>-<TEST_MODE>-<DATE>-<CONTAINER_NAME>/{logs,csvs/{full,pchit,engin,custom}}"
 ```
 
 ### 环境变量传递
 
 | 变量 | 说明 | 示例 |
 |------|------|------|
-| `WORK_DIR` | 统一工作路径根目录 | `/mnt/skilltest/vllm-perf-validation-pd/work_dirs/...` |
+| `WORK_DIR` | 统一工作路径根目录 | `/mnt/skilltest/vllm-perf-validation-single/work_dirs/...` |
 | `TEST_MODE` | 测试模式（用于子目录） | `full`、`pchit`、`engin`、`custom` |
 | `LOG_DIR` | 日志目录 | `${WORK_DIR}/logs` |
 | `IMAGE_NAME` | 镜像名称（用于路径命名） | `25401bd053af` |

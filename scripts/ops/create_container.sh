@@ -118,7 +118,7 @@ if [[ -z "$CONTAINER_NAME" ]]; then
   CONTAINER_NAME="${CONTAINER_PREFIX}-${DATE_PART}-${MODEL_SHORT}-${IMAGE_PREFIX}"
 fi
 
-if ! [[ "$CONTAINER_NAME" =~ ^${CONTAINER_PREFIX}-[0-9]{4}-[a-z0-9-]+-[A-Za-z0-9]{4,}$ ]]; then
+if ! [[ "$CONTAINER_NAME" =~ ^${CONTAINER_PREFIX}-[0-9]{4}-[a-z0-9]+-[A-Za-z0-9]{4,}$ ]]; then
   echo "Container name does not match convention: $CONTAINER_NAME" >&2
   echo "Expected: ${CONTAINER_PREFIX}-<MMDD>-<MODEL_SHORT>-<IMAGE_PREFIX>" >&2
   exit 2

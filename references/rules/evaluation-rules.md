@@ -78,7 +78,7 @@ num_prompts = concurrency * NUM_PROMPTS_MULT
 
 **输出目录：**
 ```
-/mnt/skilltest/vllm-perf-validation-pd/csvs/<MODEL>/<DATE>-<IMAGE>-custom/
+/mnt/skilltest/vllm-perf-validation-single/csvs/<MODEL>/<DATE>-<IMAGE>-custom/
 ```
 
 **输出文件：**
@@ -89,14 +89,14 @@ num_prompts = concurrency * NUM_PROMPTS_MULT
 **用法示例：**
 ```bash
 # 在容器内执行
-docker exec -w /mnt/skilltest/vllm-perf-validation-pd <CONTAINER_NAME> bash -ic '
+docker exec -w /mnt/skilltest/vllm-perf-validation-single <CONTAINER_NAME> bash -ic '
 export IMAGE_NAME=<IMAGE>
 export INPUT_LENS="1024 2048 4096 8192"
 export OUTPUT_LEN=1024
 export CONCURRENCIES="1 2 4 8"
 export NUM_PROMPTS_MULT=4
 export PERCENTILES="50,90,99"
-bash /mnt/.claude/skills/vllm-perf-validation-pd/scripts/client-scripts/run_perf_test-custom.sh \
+bash /mnt/.claude/skills/vllm-perf-validation-single/scripts/client-scripts/run_perf_test-custom.sh \
   /model/GLM-4.7-W8A8 9348 8
 '
 ```
@@ -117,8 +117,8 @@ bash /mnt/.claude/skills/vllm-perf-validation-pd/scripts/client-scripts/run_perf
 ### 自定义 engin 测试
 
 ```bash
-ssh <NODE_IP> "docker exec -w /mnt/skilltest/vllm-perf-validation-pd <CONTAINER_NAME> bash -ic '
-mkdir -p /mnt/skilltest/vllm-perf-validation-pd/logs
+ssh <NODE_IP> "docker exec -w /mnt/skilltest/vllm-perf-validation-single <CONTAINER_NAME> bash -ic '
+mkdir -p /mnt/skilltest/vllm-perf-validation-single/logs
 
 run_test() {
   local input_len=\$1
@@ -142,7 +142,7 @@ run_test() {
     --max-concurrency \$concurrency \
     --ignore-eos \
     --trust-remote-code \
-    2>&1 | tee /mnt/skilltest/vllm-perf-validation-pd/logs/engin-\$label.log
+    2>&1 | tee /mnt/skilltest/vllm-perf-validation-single/logs/engin-\$label.log
 }
 
 # 示例：并发 1/2/4/8，请求数为 2 倍并发
@@ -156,7 +156,7 @@ run_test 4096 64 16 8
 ### 自定义 pchit 测试
 
 ```bash
-ssh <NODE_IP> "docker exec -w /mnt/skilltest/vllm-perf-validation-pd <CONTAINER_NAME> bash -ic '
+ssh <NODE_IP> "docker exec -w /mnt/skilltest/vllm-perf-validation-single <CONTAINER_NAME> bash -ic '
 vllm bench serve \
   --model \"<MODEL_PATH>\" \
   --dataset-name random \

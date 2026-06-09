@@ -69,7 +69,7 @@ if [[ -n "$WORK_DIR" ]]; then
 else
     # 旧模式：兼容现有结构
     image_tag=${IMAGE_NAME: -12}
-    OUTPUT_BASE="/mnt/skilltest/vllm-perf-validation-pd/csvs/${model}"
+    OUTPUT_BASE="/mnt/skilltest/vllm-perf-validation-single/csvs/${model}"
     RUN_DIR="${OUTPUT_BASE}/${date}-${image_tag}-${TEST_MODE}"
     LOG_DIR="${RUN_DIR}/logs"
     mkdir -p "${LOG_DIR}"

@@ -478,10 +478,10 @@ task:
 mode: single
 
 paths:
-  skill_host_root: /public/home/<user>/.claude/skills/vllm-perf-validation-pd
-  skill_container_root: /mnt/.claude/skills/vllm-perf-validation-pd
-  output_host_root: /public/home/<user>/skilltest/vllm-perf-validation-pd
-  output_container_root: /mnt/skilltest/vllm-perf-validation-pd
+  skill_host_root: /public/home/<user>/.claude/skills/vllm-perf-validation-single
+  skill_container_root: /mnt/.claude/skills/vllm-perf-validation-single
+  output_host_root: /public/home/<user>/skilltest/vllm-perf-validation-single
+  output_container_root: /mnt/skilltest/vllm-perf-validation-single
 
 image:
   name: null
@@ -557,10 +557,10 @@ test:
     batch_seq: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
 
 output:
-  work_dir: /public/home/<user>/skilltest/vllm-perf-validation-pd/work_dirs
-  report_dir: /public/home/<user>/skilltest/vllm-perf-validation-pd/reports
-  log_dir: /public/home/<user>/skilltest/vllm-perf-validation-pd/logs
-  csv_dir: /public/home/<user>/skilltest/vllm-perf-validation-pd/csvs
+  work_dir: /public/home/<user>/skilltest/vllm-perf-validation-single/work_dirs
+  report_dir: /public/home/<user>/skilltest/vllm-perf-validation-single/reports
+  log_dir: /public/home/<user>/skilltest/vllm-perf-validation-single/logs
+  csv_dir: /public/home/<user>/skilltest/vllm-perf-validation-single/csvs
 EOF
 
     log_ok "task.yaml 模板已生成"

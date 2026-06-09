@@ -1,10 +1,10 @@
 task:
-  name: vllm_perf_single_glm47_custom
+  name: vllm_perf_parallel_glm47_glm51_full
   run_id: auto
   owner: liuzhihuan
-  description: "单模型 custom 性能测试"
+  description: "GLM-4.7 与 GLM-5.1 并行 full 性能测试"
 
-mode: single
+mode: parallel
 
 paths:
   skill_host_root: /public/home/<user>/.claude/skills/vllm-perf-validation-single
@@ -13,7 +13,7 @@ paths:
   output_container_root: /mnt/skilltest/vllm-perf-validation-single
 
 image:
-  name: 25401bd053af
+  name: 61d96b8e5415
   pull_policy: if_not_present
 
 node:
@@ -40,10 +40,20 @@ models:
     container_model_path: /model/GLM-4.7-W8A8
     served_model_id: null
     bench_model_id: null
-    tp: 8
+    tp: 4
     port: 9348
-    gpu_range: "0,1,2,3,4,5,6,7"
+    gpu_range: "0,1,2,3"
     service_script: scripts/server-scripts/run_glm47int8-server.sh
+  - name: GLM-5.1-Channel-INT8
+    model_short: glm51int8
+    host_model_path: /public4/share/GLM-5.1-Channel-INT8
+    container_model_path: /model1/GLM-5.1-Channel-INT8
+    served_model_id: null
+    bench_model_id: null
+    tp: 4
+    port: 9350
+    gpu_range: "4,5,6,7"
+    service_script: scripts/server-scripts/run_glm5.1-w8a8-server.sh
 
 service:
   health_check:
@@ -51,15 +61,17 @@ service:
     timeout_seconds: 1800
 
 test:
-  mode: custom
-  script: scripts/client-scripts/run_perf_test-custom.sh
+  mode: full
+  script: scripts/client-scripts/run_perf_test-full.sh
   params:
-    input_lens: [512, 1024, 2048]
-    output_len: 256
-    concurrencies: [1, 2, 4, 8]
-    num_prompts_mult: 2
-    request_rate: null
-    percentiles: "50,95,99"
+    pairs:
+      - input_len: 512
+        output_len: 512
+        max_batch: 128
+      - input_len: 1024
+        output_len: 1024
+        max_batch: 64
+    batch_seq: [1, 2, 4, 8, 16, 32, 64]
 
 output:
   work_dir: /public/home/<user>/skilltest/vllm-perf-validation-single/work_dirs
